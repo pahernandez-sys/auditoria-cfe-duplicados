@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CFE SOSSA | Dashboard Ejecutivo de Auditoría de Duplicados LinkaForm</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 (CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       NAVBAR / HEADER
+       ========================================================================= -->
+  <header class="navbar">
+    <div class="brand-container">
+      <div class="brand-logo">
+        <i class="fa-solid fa-bolt-lightning text-white"></i>
+      </div>
+      <div class="brand-title">
+        <h1>CFE SOSSA CONEXIÓN DIRECTA — AUDITORÍA DE DUPLICADOS</h1>
+        <p>Detección de Reciclaje Fotográfico y Falsificación de Censos en LinkaForm</p>
+      </div>
+    </div>
+    
+    <div class="nav-actions">
+      <div class="badge-audit">
+        <span class="pulse-dot"></span>
+        <span>AUDITORÍA FORENSE ACTIVA</span>
+      </div>
+      <button class="btn-export" onclick="window.print()">
+        <i class="fa-solid fa-print"></i>
+        <span>Imprimir Reporte</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================= -->
+  <main class="main-container">
+    
+    <!-- 1. KPI SUMMARY METRICS -->
+    <section class="kpi-grid">
+      <div class="kpi-card purple">
+        <div class="kpi-header">
+          <span class="kpi-title">Total Registros Auditados</span>
+          <div class="kpi-icon" style="color: var(--accent-purple);"><i class="fa-solid fa-folder-tree"></i></div>
+        </div>
+        <div class="kpi-value" id="kpi-total-audited">52,940</div>
+        <div class="kpi-subtext"><i class="fa-solid fa-circle-check" style="color: var(--accent-emerald);"></i> 100% Universo de base de datos</div>
+      </div>
+
+      <div class="kpi-card rose">
+        <div class="kpi-header">
+          <span class="kpi-title">Parejas de Duplicados</span>
+          <div class="kpi-icon" style="color: var(--accent-rose);"><i class="fa-solid fa-clone"></i></div>
+        </div>
+        <div class="kpi-value" id="kpi-total-duplicates">36,382</div>
+        <div class="kpi-subtext"><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-rose);"></i> Cruces con fotos idénticas</div>
+      </div>
+
+      <div class="kpi-card amber">
+        <div class="kpi-header">
+          <span class="kpi-title">Reutilización Total (4 y 3 Fotos)</span>
+          <div class="kpi-icon" style="color: var(--accent-amber);"><i class="fa-solid fa-images"></i></div>
+        </div>
+        <div class="kpi-value" id="kpi-critical-duplicates">4,858</div>
+        <div class="kpi-subtext"><i class="fa-solid fa-radiation" style="color: var(--accent-amber);"></i> Replicación íntegra de evidencias</div>
+      </div>
+
+      <div class="kpi-card cyan">
+        <div class="kpi-header">
+          <span class="kpi-title">Evidencia Criptográfica</span>
+          <div class="kpi-icon" style="color: var(--accent-cyan);"><i class="fa-solid fa-fingerprint"></i></div>
+        </div>
+        <div class="kpi-value">SHA-256</div>
+        <div class="kpi-subtext"><i class="fa-solid fa-shield-halved" style="color: var(--accent-cyan);"></i> Integridad matemática infalible</div>
+      </div>
+    </section>
+
+    <!-- 2. ANALYTICS & SEVERITY METRICS -->
+    <section class="analytics-grid">
+      <!-- Severity Breakdown -->
+      <div class="card">
+        <div class="card-title">
+          <i class="fa-solid fa-chart-pie" style="color: var(--accent-indigo);"></i>
+          <span>Desglose por Severidad de Duplicidad Fotográfica</span>
+        </div>
+        <div class="severity-breakdown">
+          <div class="sev-box sev-4">
+            <div class="sev-label">4 Fotos Idénticas</div>
+            <div class="sev-val" id="count-sev-4">976</div>
+            <div class="sev-desc">🚨 Fraude Total (100%)</div>
+          </div>
+          <div class="sev-box sev-3">
+            <div class="sev-label">3 Fotos Idénticas</div>
+            <div class="sev-val" id="count-sev-3">3,882</div>
+            <div class="sev-desc">⚠️ Reutilización Severa</div>
+          </div>
+          <div class="sev-box sev-2">
+            <div class="sev-label">2 Fotos Idénticas</div>
+            <div class="sev-val" id="count-sev-2">8,514</div>
+            <div class="sev-desc">⚠️ Fachada y Medidor</div>
+          </div>
+          <div class="sev-box sev-1">
+            <div class="sev-label">1 Foto Idéntica</div>
+            <div class="sev-val" id="count-sev-1">23,010</div>
+            <div class="sev-desc">ℹ️ Misma Evidencia</div>
+          </div>
+        </div>
+        <div id="severity-chart-container" style="flex: 1; min-height: 140px; display: flex; align-items: flex-end; gap: 1rem; padding-top: 1rem;">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+
+      <!-- Top Censadores Impactados -->
+      <div class="card">
+        <div class="card-title">
+          <i class="fa-solid fa-users-viewfinder" style="color: var(--accent-purple);"></i>
+          <span>Top de Censadores con Mayor Volumen de Duplicados</span>
+        </div>
+        <div id="censadores-ranking" style="display: flex; flex-direction: column; gap: 0.65rem; flex: 1; justify-content: center;">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. INTERACTIVE DUAL-PANE COMPARATOR WORKSPACE -->
+    <section class="workspace-grid">
+      
+      <!-- Left Sidebar: Filterable Cases List -->
+      <aside class="sidebar-panel">
+        <div class="sidebar-header">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="case-search" placeholder="Buscar folio, censador...">
+          </div>
+          <div class="filter-pills">
+            <button class="pill-btn active" data-filter="all">Todos (<span id="total-cases-count">0</span>)</button>
+            <button class="pill-btn pill-rose" data-filter="4">🚨 4 Fotos</button>
+            <button class="pill-btn" data-filter="3">⚠️ 3 Fotos</button>
+            <button class="pill-btn" data-filter="2">2 Fotos</button>
+            <button class="pill-btn" data-filter="1">1 Foto</button>
+          </div>
+        </div>
+        
+        <div class="cases-list" id="cases-list-container">
+          <!-- Cases cards dynamically injected here -->
+        </div>
+      </aside>
+
+      <!-- Right Main: The Dual Comparator -->
+      <div class="comparator-panel">
+        <div class="comparator-header">
+          <div class="case-title-area">
+            <h2 id="current-case-title">Selecciona un caso de la lista</h2>
+          </div>
+
+          <!-- View Switcher Tabs -->
+          <div class="view-tabs">
+            <button class="view-tab active" data-view="linkaform">
+              <i class="fa-solid fa-desktop"></i>
+              <span>Capturas LinkaForm</span>
+            </button>
+            <button class="view-tab" data-view="photos">
+              <i class="fa-solid fa-images"></i>
+              <span>Fotos HD Lado a Lado</span>
+            </button>
+            <button class="view-tab" data-view="diff">
+              <i class="fa-solid fa-table-columns"></i>
+              <span>Ficha Técnica Diff</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="comparator-content" id="comparator-content-area">
+          <!-- Active view content dynamically rendered here -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 4. MASTER SEARCHABLE AUDIT TABLE -->
+    <section class="card">
+      <div class="card-title">
+        <i class="fa-solid fa-list-check" style="color: var(--accent-indigo);"></i>
+        <span>Tabla de Auditoría Forense y Trazabilidad Completa</span>
+      </div>
+      <div class="table-responsive">
+        <table class="audit-table">
+          <thead>
+            <tr>
+              <th># Caso</th>
+              <th>Folio 1 (Original)</th>
+              <th>Censador 1</th>
+              <th>Folio 2 (Duplicado)</th>
+              <th>Censador 2</th>
+              <th>Fotos Idénticas</th>
+              <th>Severidad</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="master-table-body">
+            <!-- Table rows rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer>
+    <p>CFE SOSSA Conexión Directa © 2026 — Plataforma de Auditoría Forense de Calidad de Datos & Evidencias Fotográficas</p>
+  </footer>
+
+  <!-- Embedded Data & Application Logic -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
